@@ -1,0 +1,29 @@
+{
+
+  "type": "ambient_energy:energy_biome_modifier",
+
+  "biomes": ["minecraft:plains",
+    "minecraft:forest",
+    "minecraft:desert"
+  ],
+  "energies": [
+    {
+      "id": "ambient_energy:mana",
+      "name": {
+        "type": "value",
+        "data": "Mana"
+      },
+      "energy_gain":"2",
+      "initial_energy": "20"
+    },
+    {
+      "id": "ambient_energy:primal_mana",
+      "name": {
+        "type": "value",
+        "data": "Primal Mana"
+      },
+      "energy_gain":"0.01",
+      "initial_energy": "0"
+    }
+  ]
+}

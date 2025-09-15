@@ -6,6 +6,7 @@ import net.lucent.ambient_energy.util.ModAttachments;
 import net.lucent.ambient_energy.util.ModBiomeConfigs;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ChunkHolder;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.world.level.Level;
@@ -29,10 +30,14 @@ public class ChunkEventHandler {
         if (!(event.getChunk() instanceof LevelChunk levelChunk)) return;
         ChunkEnergy data = levelChunk.getData(ModAttachments.CHUNK_ENERGY);
         for(ResourceKey<Biome> biome :ChunkEventHandler.getAllBiomesInChunk(levelChunk)){
+            if(EnergyBiomeModifier.getDataForBiome(biome) == null) continue;
             for(Codecs.BiomeEnergyCodec biomeEnergyCodec : EnergyBiomeModifier.getDataForBiome(biome).energies()){
+
                 data.addEnergy(new EnergyInstance(biomeEnergyCodec));
             }
+
         }
+        levelChunk.setUnsaved(false);
     }
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Pre event){
@@ -44,11 +49,13 @@ public class ChunkEventHandler {
                 for(ChunkHolder holder:serverChunkCache.chunkMap.getChunks()){
                     count += 1;
                     if(holder.getTickingChunk() == null) continue;
+                    if(!holder.getTickingChunk().hasData(ModAttachments.CHUNK_ENERGY)) return;
                     //TODO potentially change to check with has. and then attach using load.
                     //TODO that would allow for more control on what chunks can have ether
                     ChunkEnergy data = holder.getTickingChunk().getData(ModAttachments.CHUNK_ENERGY);
                     data.gatherEnergy();
                     data.decayEnergy();
+                    //System.out.println("mana("+data.getEnergy(ResourceLocation.parse("ambient_energy:mana")).currentEnergy+")");
                 }
                 //System.out.println("number of chunks in map: "+count);
 

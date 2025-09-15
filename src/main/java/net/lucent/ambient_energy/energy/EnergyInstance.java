@@ -1,11 +1,13 @@
 package net.lucent.ambient_energy.energy;
 
+import io.netty.buffer.ByteBuf;
 import net.lucent.ambient_energy.util.Codecs;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -29,6 +31,13 @@ public class EnergyInstance {
         );
         this.currentEnergy = new BigDecimal(data.initialEnergy());
     }
+    public EnergyInstance(ByteBuf buffer) {
+        this.id = ResourceLocation.bySeparator(buffer.readCharSequence(buffer.readInt(),Charset.defaultCharset()).toString(),':');
+        name = buffer.readCharSequence(buffer.readInt(),Charset.defaultCharset()).toString();
+        currentEnergy = new BigDecimal(buffer.readCharSequence(buffer.readInt(),Charset.defaultCharset()).toString());
+    }
+
+
     public EnergyInstance(EnergyInstance instance){
         this(
                 ResourceLocation.bySeparator(instance.id.toString(),':'),
@@ -61,6 +70,8 @@ public class EnergyInstance {
         this.decayRate = decayRate;
     }
 
+
+
     public void gather(){
         currentEnergy = currentEnergy.add(gatherRate);
     }
@@ -78,6 +89,7 @@ public class EnergyInstance {
     public void setEnergy(BigDecimal amount){
         this.currentEnergy = amount;
     }
+
     public CompoundTag serialize(){
         CompoundTag tag = new CompoundTag();
         tag.putString("id",id.toString());
@@ -86,6 +98,17 @@ public class EnergyInstance {
         tag.putString("gather_rate",gatherRate.toPlainString());
         tag.putString("decay_rate",decayRate.toPlainString());
         return tag;
+    }
+    //client does not need gain/decay
+
+    public static void encode(ByteBuf buffer, EnergyInstance energyInstance) {
+
+        buffer.writeInt(energyInstance.id.toString().length());
+        buffer.writeCharSequence(energyInstance.id.toString(), Charset.defaultCharset());
+        buffer.writeInt(energyInstance.name.length());
+        buffer.writeCharSequence(energyInstance.name, Charset.defaultCharset());
+        buffer.writeInt(energyInstance.currentEnergy.toString().length());
+        buffer.writeCharSequence(energyInstance.currentEnergy.toString(), Charset.defaultCharset());
     }
 
 }

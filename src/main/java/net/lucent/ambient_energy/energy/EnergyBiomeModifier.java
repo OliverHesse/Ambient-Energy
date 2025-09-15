@@ -22,11 +22,15 @@ public record EnergyBiomeModifier(HolderSet<Biome> biomes, List< Codecs.BiomeEne
         return biomeDataMap.get(key);
 
     }
+
     @Override
     public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
-        biome.unwrapKey().ifPresent(biomeResourceKey -> {
-            EnergyBiomeModifier.biomeDataMap.put(biomeResourceKey,new EnergyBiomeData(energies));
-        });
+
+        if(phase == Phase.MODIFY){
+            biome.unwrapKey().ifPresent(biomeResourceKey -> {
+                EnergyBiomeModifier.biomeDataMap.put(biomeResourceKey,new EnergyBiomeData(energies));
+            });
+        }
     }
 
 

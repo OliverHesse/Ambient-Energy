@@ -1,5 +1,6 @@
 package net.lucent.ambient_energy.energy;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -9,6 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class ChunkEnergy {
     public HashMap<ResourceLocation,EnergyInstance> energy = new HashMap<>();
@@ -46,7 +49,15 @@ public class ChunkEnergy {
 
     }
     public void addEnergy(EnergyInstance energyInstance){
-
+        energy.put(energyInstance.id,energyInstance);
+    }
+    public HashSet<EnergyInstance> toHashSet(){
+        return new HashSet<>(energy.values());
+    }
+    public void addEnergies(HashSet<EnergyInstance> instances){
+        for(EnergyInstance instance : instances){
+            energy.put(instance.id,instance);
+        }
     }
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         ListTag listTag = tag.getList("energy",Tag.TAG_COMPOUND);

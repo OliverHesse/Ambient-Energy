@@ -1,6 +1,19 @@
 package net.lucent.ambient_energy;
 
+import net.lucent.ambient_energy.blocks.ModBlocks;
+import net.lucent.ambient_energy.items.ModItems;
+import net.lucent.ambient_energy.network.ModPayloads;
+import net.lucent.ambient_energy.ui.elements.EnergyDisplay;
+
+import net.lucent.ambient_energy.util.ModArmorMaterials;
 import net.lucent.ambient_energy.util.ModAttachments;
+import net.lucent.ambient_energy.util.ModBiomeConfigs;
+import net.lucent.ambient_energy.util.ModCreativeModeTabs;
+import net.lucent.easygui.elements.containers.View;
+import net.lucent.easygui.overlays.EasyGuiOverlay;
+import net.lucent.easygui.overlays.EasyGuiOverlayManager;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -53,9 +66,11 @@ public class AmbientEnergy {
 
         //mod register stuff
         ModAttachments.register(modEventBus);
-
-
-
+        ModBiomeConfigs.register(modEventBus);
+        ModArmorMaterials.register(modEventBus);
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
@@ -81,15 +96,23 @@ public class AmbientEnergy {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
+    @EventBusSubscriber(modid = AmbientEnergy.MOD_ID)
+    static class ModEvents {
 
+        @SubscribeEvent
+        public static void registerPayloads(RegisterPayloadHandlersEvent event){
+            ModPayloads.registerPayloads(event);
+        }
+    }
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = AmbientEnergy.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = AmbientEnergy.MOD_ID, value = Dist.CLIENT)
     static class ClientModEvents {
         @SubscribeEvent
         static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
         }
     }
 }
