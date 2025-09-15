@@ -1,6 +1,7 @@
 package net.lucent.ambient_energy;
 
 import net.lucent.ambient_energy.blocks.ModBlocks;
+import net.lucent.ambient_energy.blocks.block_entities.ModBlockEntities;
 import net.lucent.ambient_energy.items.ModItems;
 import net.lucent.ambient_energy.network.ModPayloads;
 import net.lucent.ambient_energy.ui.elements.EnergyDisplay;
@@ -70,6 +71,7 @@ public class AmbientEnergy {
         ModArmorMaterials.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);

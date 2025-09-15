@@ -1,12 +1,16 @@
 package net.lucent.ambient_energy.util;
 
 import net.lucent.ambient_energy.AmbientEnergy;
+import net.lucent.ambient_energy.blocks.ModBlocks;
 import net.lucent.ambient_energy.items.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -18,8 +22,12 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.TIER_1_GOGGLES.get()))
                     .title(Component.literal("Ambient Energy"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.TIER_1_GOGGLES);
-                        output.accept(ModItems.TIER_2_GOGGLES);
+                        for (DeferredHolder<Block,?extends Block> blockHolder : ModBlocks.BLOCK.getEntries()){
+                            output.accept(blockHolder.get());
+                        }
+                        for (DeferredHolder<Item,?extends Item> itemHolder : ModItems.ITEMS.getEntries()) {
+                            output.accept(itemHolder.get());
+                        }
                     }).build());
 
     public static void register(IEventBus eventBus) {

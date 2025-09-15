@@ -35,6 +35,18 @@ public class ChunkEnergy {
         if(!energy.containsKey(id)) return;
         energy.get(id).decay();
     }
+    public void increaseEnergy(ResourceLocation id,BigDecimal amount){
+        if(!energy.containsKey(id)) increaseEnergy(id,Component.translatable("energy."+id.getNamespace()+"."+id.getPath()).getString(),amount);
+        energy.get(id).increaseEnergy(amount);
+    }
+    public void increaseEnergy(ResourceLocation id,String name,BigDecimal amount){
+        if(!energy.containsKey(id)) energy.put(id,new EnergyInstance(id,name));
+        energy.get(id).increaseEnergy(amount);
+    }
+    public boolean reduceEnergy(ResourceLocation id,BigDecimal amount){
+        if(!energy.containsKey(id)) return false;
+        return energy.get(id).reduceEnergy(amount);
+    }
     public EnergyInstance getEnergy(ResourceLocation id){
         if(!energy.containsKey(id)) energy.put(id,new EnergyInstance(id, Component.translatable("energy."+id.getNamespace()+"."+id.getPath()).getString()));
         return energy.get(id);

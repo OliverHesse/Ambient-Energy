@@ -28,7 +28,7 @@ public class EnergyDisplay extends EmptyContainer {
     @Override
     public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
-        System.out.println("rendering overlay");
+
         //verify player has head piece
         if(!Minecraft.getInstance().player.getItemBySlot(EquipmentSlot.HEAD).is(ModItemTags.DETECTION_ITEM))return;
         //handle sync
