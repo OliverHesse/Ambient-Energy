@@ -16,7 +16,7 @@ public class PassiveGeneratorBlockEntity extends BlockEntity {
     }
     public PassiveGeneratorBlockEntity( BlockPos pos, BlockState blockState) {
         this(ModBlockEntities.PASSIVE_GENERATOR_BE.get(), pos, blockState);
-        System.out.println("created passive generator");
+        //System.out.println("created passive generator");
     }
 
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
@@ -27,6 +27,6 @@ public class PassiveGeneratorBlockEntity extends BlockEntity {
         chunkAccess.getData(ModAttachments.CHUNK_ENERGY).increaseEnergy(block.outputId,block.name,block.outputPerTick);
 
         chunkAccess.setUnsaved(true);
-        System.out.println("ticking");
+        //System.out.println("ticking");
     }
 }

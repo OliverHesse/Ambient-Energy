@@ -17,17 +17,20 @@ import java.util.function.Supplier;
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, AmbientEnergy.MOD_ID);
+
     public static  final Supplier<BlockEntityType<ConversionBlockEntity>> CONVERSION_BE =
             BLOCK_ENTITIES.register("conversion_block_be",() -> BlockEntityType.Builder.of(
-                    ConversionBlockEntity::new,
-                    ModBlocks.TEST_CONVERSION_BLOCK.get()).build(null));
+                    ConversionBlockEntity::new
+                   // ModBlocks.TEST_CONVERSION_BLOCK.get()
+            ).build(null));
     public static  final Supplier<BlockEntityType<GeneratorBlockEntity>> GENERATOR_BE =
             BLOCK_ENTITIES.register("generator_block_be",() -> BlockEntityType.Builder.of(
                     GeneratorBlockEntity::new).build(null));
     public static  final Supplier<BlockEntityType<PassiveGeneratorBlockEntity>> PASSIVE_GENERATOR_BE =
             BLOCK_ENTITIES.register("passive_generator_block_be",() -> BlockEntityType.Builder.of(
-                    PassiveGeneratorBlockEntity::new,
-                    ModBlocks.TEST_PASSIVE_GENERATOR.get()).build(null));
+                    PassiveGeneratorBlockEntity::new
+                   // ModBlocks.TEST_PASSIVE_GENERATOR.get()
+            ).build(null));
 
     public static void register(IEventBus eventBus){
 

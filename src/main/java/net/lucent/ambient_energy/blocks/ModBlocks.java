@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCK =
             DeferredRegister.createBlocks(AmbientEnergy.MOD_ID);
+    /*
     public static final DeferredBlock<Block> TEST_CONVERSION_BLOCK = registerBlock("test_conversion_block",()->
             new ConversionBlock(BlockBehaviour.Properties.of(),
                     ResourceLocation.fromNamespaceAndPath(
@@ -34,7 +35,9 @@ public class ModBlocks {
                     new BigDecimal("10"),
                     new BigDecimal("1")));
 
+     */
 
+    /*
     public static final DeferredBlock<Block> TEST_PASSIVE_GENERATOR = registerBlock("test_passive_generator",()->
             new PassiveGeneratorBlock(BlockBehaviour.Properties.of(),
                     ResourceLocation.fromNamespaceAndPath(
@@ -43,6 +46,8 @@ public class ModBlocks {
                     ),
                     "Ether",
                     new BigDecimal("0.1")));
+
+    */
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCK.register(name, block);
         registerBlockItem(name, toReturn);

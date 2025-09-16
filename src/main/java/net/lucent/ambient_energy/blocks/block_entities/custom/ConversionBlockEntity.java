@@ -17,7 +17,7 @@ public class ConversionBlockEntity extends BlockEntity {
     }
     public ConversionBlockEntity(BlockPos pos, BlockState blockState) {
         this(ModBlockEntities.CONVERSION_BE.get(), pos, blockState);
-        System.out.println("Block entity made");
+        //System.out.println("Block entity made");
     }
     //T is this block entity
     public static <T extends BlockEntity> void tick(Level level, BlockPos blockPos, BlockState blockState, T t) {
